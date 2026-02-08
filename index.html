@@ -27,15 +27,32 @@
         #heartCanvas { position: fixed; top: 0; left: 0; width: 100%; height: 100%; pointer-events: none; z-index: -1; }
 
         /* --- Question Section --- */
-        #main-content { z-index: 100; text-align: center; }
-        h1 { color: var(--pink); font-size: 2.5rem; margin-bottom: 40px; text-shadow: 2px 2px white; }
+        #main-content { z-index: 100; text-align: center; max-width: 90%; }
+        
+        .main-pic {
+            width: 160px;
+            height: 160px;
+            object-fit: cover;
+            border-radius: 50%;
+            border: 5px solid white;
+            box-shadow: 0 8px 20px rgba(0,0,0,0.1);
+            margin-bottom: 20px;
+            animation: float 3s ease-in-out infinite;
+        }
 
-        .btn-container { display: flex; justify-content: center; gap: 40px; width: 100%; }
+        @keyframes float {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-10px); }
+        }
+
+        h1 { color: var(--pink); font-size: 2.2rem; margin-bottom: 40px; text-shadow: 2px 2px white; }
+
+        .btn-container { display: flex; justify-content: center; gap: 30px; width: 100%; }
 
         .btn {
             padding: 15px 0;
-            width: 150px;
-            font-size: 1.5rem;
+            width: 140px;
+            font-size: 1.3rem;
             font-weight: bold;
             border: none;
             border-radius: 50px;
@@ -58,6 +75,7 @@
             border-radius: 20px;
             box-shadow: 0 10px 40px rgba(255, 77, 109, 0.3);
             border: 2px solid var(--pink);
+            max-width: 85%;
         }
 
         .more-btn {
@@ -69,28 +87,29 @@
             border-radius: 20px;
             cursor: pointer;
             font-weight: bold;
+            font-size: 1rem;
         }
 
-        /* --- Video Modal (Bigger Frame) --- */
+        /* --- Video Modal (Large Frame) --- */
         #video-container {
             display: none;
             position: fixed;
             top: 50%; left: 50%;
             transform: translate(-50%, -50%);
             z-index: 2000;
-            background: rgba(0, 0, 0, 0.9);
-            padding: 20px;
+            background: rgba(0, 0, 0, 0.95);
+            padding: 15px;
             border-radius: 15px;
             box-shadow: 0 0 100px rgba(0,0,0,0.8);
-            width: 90vw; /* 90% of screen width */
-            max-width: 1000px; /* Limit on very large screens */
+            width: 90vw;
+            max-width: 1000px;
             text-align: center;
         }
 
         video { 
             width: 100%; 
             height: auto; 
-            max-height: 80vh; 
+            max-height: 75vh; 
             border-radius: 10px; 
             outline: none;
         }
@@ -110,9 +129,9 @@
         .collage-container { position: fixed; top: 0; left: 0; width: 100%; height: 100%; pointer-events: none; z-index: 5; }
         .collage-container img {
             position: absolute;
-            width: 150px; height: 150px;
+            width: 130px; height: 130px;
             object-fit: cover;
-            border: 5px solid white;
+            border: 4px solid white;
             box-shadow: 0 5px 15px rgba(0,0,0,0.2);
             top: -300px;
             border-radius: 10px;
@@ -126,6 +145,7 @@
 <body>
 
     <canvas id="heartCanvas"></canvas>
+
     <div id="main-content">
         <img src="small.jpg" alt="Main Photo" class="main-pic">
         <h1>Will you be my Valentine? ❤️</h1>
@@ -136,7 +156,7 @@
     </div>
 
     <div id="success-msg">
-        <h1 style="color: var(--pink); margin: 0;">🌹 YAYAYAYAY! happy valentines day🌹</h1>
+        <h1 style="color: var(--pink); margin: 0; font-size: 1.8rem;">🌹 YAYAYAYAY! happy valentines day🌹</h1>
         <p style="color: #555; font-size: 1.1rem; margin-bottom: 10px;">(muaaaah😘🤭)</p>
         <button class="more-btn" onclick="showVideo()">More? ✨</button>
     </div>
@@ -175,10 +195,10 @@
             if (winningSide === 'left') {
                 winningSide = 'right';
                 leftBtn.innerText = "No"; leftBtn.className = "btn style-no";
-                rightBtn.innerText = "YES!"; rightBtn.className = "btn style-yes";
+                rightBtn.innerText = "YEEP!"; rightBtn.className = "btn style-yes";
             } else {
                 winningSide = 'left';
-                leftBtn.innerText = "YES!"; leftBtn.className = "btn style-yes";
+                leftBtn.innerText = "YEEP!"; leftBtn.className = "btn style-yes";
                 rightBtn.innerText = "No"; rightBtn.className = "btn style-no";
             }
         }
@@ -206,8 +226,8 @@
                 setTimeout(() => {
                     const col = index % cols;
                     const row = Math.floor(index / cols);
-                    const x = (col * (window.innerWidth / cols)) + (Math.random() * (window.innerWidth/cols - 160));
-                    const y = (row * (window.innerHeight / 4)) + (Math.random() * (window.innerHeight/4 - 160));
+                    const x = (col * (window.innerWidth / cols)) + (Math.random() * (window.innerWidth/cols - 140));
+                    const y = (row * (window.innerHeight / 4)) + (Math.random() * (window.innerHeight/4 - 140));
                     img.style.opacity = "1";
                     img.style.left = x + "px";
                     img.style.top = y + "px";
@@ -241,7 +261,3 @@
     </script>
 </body>
 </html>
-
-
-
-
