@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>For You ❤️</title>
+    <title>For My Favorite Person ❤️</title>
     <style>
         :root {
             --pink: #ff4d6d;
@@ -13,7 +13,7 @@
 
         body {
             background-color: var(--bg);
-            font-family: 'Segoe UI', sans-serif;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
             margin: 0;
             display: flex;
             flex-direction: column;
@@ -24,16 +24,13 @@
             user-select: none;
         }
 
+        #heartCanvas { position: fixed; top: 0; left: 0; width: 100%; height: 100%; pointer-events: none; z-index: -1; }
+
         /* --- Question Section --- */
-        #main-content { z-index: 100; text-align: center; transition: opacity 0.5s; }
+        #main-content { z-index: 100; text-align: center; }
         h1 { color: var(--pink); font-size: 2.5rem; margin-bottom: 40px; text-shadow: 2px 2px white; }
 
-        .btn-container {
-            display: flex;
-            justify-content: center;
-            gap: 40px;
-            width: 100%;
-        }
+        .btn-container { display: flex; justify-content: center; gap: 40px; width: 100%; }
 
         .btn {
             padding: 15px 0;
@@ -48,7 +45,6 @@
         }
 
         .btn:active { transform: scale(0.95); }
-
         .style-yes { background-color: var(--green); color: white; }
         .style-no { background-color: var(--pink); color: white; }
 
@@ -58,39 +54,73 @@
             text-align: center;
             z-index: 1000;
             background: rgba(255, 255, 255, 0.95);
-            padding: 30px 50px;
+            padding: 25px 40px;
             border-radius: 20px;
             box-shadow: 0 10px 40px rgba(255, 77, 109, 0.3);
             border: 2px solid var(--pink);
         }
 
-        /* --- Collage Photos --- */
-        .collage-container {
-            position: fixed;
-            top: 0; left: 0; width: 100%; height: 100%;
-            pointer-events: none;
-            z-index: 5;
+        .more-btn {
+            margin-top: 15px;
+            background-color: var(--pink);
+            color: white;
+            padding: 10px 25px;
+            border: none;
+            border-radius: 20px;
+            cursor: pointer;
+            font-weight: bold;
         }
 
+        /* --- Video Modal (Bigger Frame) --- */
+        #video-container {
+            display: none;
+            position: fixed;
+            top: 50%; left: 50%;
+            transform: translate(-50%, -50%);
+            z-index: 2000;
+            background: rgba(0, 0, 0, 0.9);
+            padding: 20px;
+            border-radius: 15px;
+            box-shadow: 0 0 100px rgba(0,0,0,0.8);
+            width: 90vw; /* 90% of screen width */
+            max-width: 1000px; /* Limit on very large screens */
+            text-align: center;
+        }
+
+        video { 
+            width: 100%; 
+            height: auto; 
+            max-height: 80vh; 
+            border-radius: 10px; 
+            outline: none;
+        }
+
+        .close-vid {
+            margin-top: 15px;
+            cursor: pointer;
+            background: var(--pink);
+            color: white;
+            border: none;
+            border-radius: 50px;
+            padding: 10px 30px;
+            font-weight: bold;
+        }
+
+        /* --- Collage Photos --- */
+        .collage-container { position: fixed; top: 0; left: 0; width: 100%; height: 100%; pointer-events: none; z-index: 5; }
         .collage-container img {
             position: absolute;
-            width: 150px;
-            height: 150px;
+            width: 150px; height: 150px;
             object-fit: cover;
             border: 5px solid white;
             box-shadow: 0 5px 15px rgba(0,0,0,0.2);
-            top: -300px; /* Start hidden above screen */
+            top: -300px;
             border-radius: 10px;
             transition: all 0.8s cubic-bezier(0.175, 0.885, 0.32, 1.275);
             opacity: 0;
             pointer-events: auto;
             cursor: pointer;
-            background-color: #eee;
         }
-        
-        .collage-container img:hover { transform: scale(1.1); z-index: 500 !important; }
-        
-        #heartCanvas { position: fixed; top: 0; left: 0; width: 100%; height: 100%; pointer-events: none; z-index: -1; }
     </style>
 </head>
 <body>
@@ -107,76 +137,49 @@
 
     <div id="success-msg">
         <h1 style="color: var(--pink); margin: 0;">🌹 It's a Date! 🌹</h1>
-        <p style="color: #555; font-size: 1.2rem;">(I knew you'd say yes! 😉)</p>
+        <p style="color: #555; font-size: 1.1rem; margin-bottom: 10px;">(I knew you'd say yes! 😉)</p>
+        <button class="more-btn" onclick="showVideo()">More? ✨</button>
+    </div>
+
+    <div id="video-container">
+        <video id="myVideo" controls>
+            <source src="video.mp4" type="video/mp4">
+        </video>
+        <br>
+        <button class="close-vid" onclick="hideVideo()">Close</button>
     </div>
 
     <div class="collage-container" id="photoGallery">
-        <img src="https://via.placeholder.com/150/ffb3c1/ffffff?text=1" onclick="bringToFront(this)">
-        <img src="https://via.placeholder.com/150/ffb3c1/ffffff?text=2" onclick="bringToFront(this)">
-        <img src="https://via.placeholder.com/150/ffb3c1/ffffff?text=3" onclick="bringToFront(this)">
-        <img src="https://via.placeholder.com/150/ffb3c1/ffffff?text=4" onclick="bringToFront(this)">
-        <img src="https://via.placeholder.com/150/ffb3c1/ffffff?text=5" onclick="bringToFront(this)">
-        <img src="https://via.placeholder.com/150/ffb3c1/ffffff?text=6" onclick="bringToFront(this)">
-        <img src="https://via.placeholder.com/150/ffb3c1/ffffff?text=7" onclick="bringToFront(this)">
-        <img src="https://via.placeholder.com/150/ffb3c1/ffffff?text=8" onclick="bringToFront(this)">
-        <img src="https://via.placeholder.com/150/ffb3c1/ffffff?text=9" onclick="bringToFront(this)">
-        <img src="https://via.placeholder.com/150/ffb3c1/ffffff?text=10" onclick="bringToFront(this)">
-        <img src="https://via.placeholder.com/150/ffb3c1/ffffff?text=11" onclick="bringToFront(this)">
-        <img src="https://via.placeholder.com/150/ffb3c1/ffffff?text=12" onclick="bringToFront(this)">
-        <img src="https://via.placeholder.com/150/ffb3c1/ffffff?text=13" onclick="bringToFront(this)">
-        <img src="https://via.placeholder.com/150/ffb3c1/ffffff?text=14" onclick="bringToFront(this)">
-        <img src="https://via.placeholder.com/150/ffb3c1/ffffff?text=15" onclick="bringToFront(this)">
-        <img src="https://via.placeholder.com/150/ffb3c1/ffffff?text=16" onclick="bringToFront(this)">
+        <img src="photo1.jpg" onclick="bringToFront(this)"><img src="photo2.jpg" onclick="bringToFront(this)">
+        <img src="photo3.jpg" onclick="bringToFront(this)"><img src="photo4.jpg" onclick="bringToFront(this)">
+        <img src="photo5.jpg" onclick="bringToFront(this)"><img src="photo6.jpg" onclick="bringToFront(this)">
+        <img src="photo7.jpg" onclick="bringToFront(this)"><img src="photo8.jpg" onclick="bringToFront(this)">
+        <img src="photo9.jpg" onclick="bringToFront(this)"><img src="photo10.jpg" onclick="bringToFront(this)">
+        <img src="photo11.jpg" onclick="bringToFront(this)"><img src="photo12.jpg" onclick="bringToFront(this)">
+        <img src="photo13.jpg" onclick="bringToFront(this)"><img src="photo14.jpg" onclick="bringToFront(this)">
+        <img src="photo15.jpg" onclick="bringToFront(this)"><img src="photo16.jpg" onclick="bringToFront(this)">
     </div>
 
     <script>
-        // --- PASSWORD PROTECTION START ---
-        const secretPassword = "123"; // CHANGE THIS TO YOUR PASSWORD
-        
-        let userGuess = prompt("Please enter the password to view this page:");
-        
-        if (userGuess !== secretPassword) {
-            document.body.innerHTML = "<div style='text-align:center; margin-top:50px;'><h1>🔒 Access Denied</h1><p>Wrong password. Refresh the page to try again.</p></div>";
-            throw new Error("Wrong password"); // Stops the rest of the script from running
-        }
-        // --- PASSWORD PROTECTION END ---
-
-
-        let winningSide = 'left'; // Keeps track of which side is "YES"
+        let winningSide = 'left'; 
         let zIndexCounter = 100;
 
         function handleClick(clickedSide) {
-            if (clickedSide === winningSide) {
-                // They clicked the YES button
-                win();
-            } else {
-                // They clicked the NO button
-                swap();
-            }
+            if (clickedSide === winningSide) { win(); } 
+            else { swap(); }
         }
 
         function swap() {
             const leftBtn = document.getElementById('btn-left');
             const rightBtn = document.getElementById('btn-right');
-
             if (winningSide === 'left') {
-                // Switch winning side to RIGHT
                 winningSide = 'right';
-                
-                leftBtn.innerText = "No"; 
-                leftBtn.className = "btn style-no";
-                
-                rightBtn.innerText = "YES!"; 
-                rightBtn.className = "btn style-yes";
+                leftBtn.innerText = "No"; leftBtn.className = "btn style-no";
+                rightBtn.innerText = "YES!"; rightBtn.className = "btn style-yes";
             } else {
-                // Switch winning side to LEFT
                 winningSide = 'left';
-                
-                leftBtn.innerText = "YES!"; 
-                leftBtn.className = "btn style-yes";
-                
-                rightBtn.innerText = "No"; 
-                rightBtn.className = "btn style-no";
+                leftBtn.innerText = "YES!"; leftBtn.className = "btn style-yes";
+                rightBtn.innerText = "No"; rightBtn.className = "btn style-no";
             }
         }
 
@@ -186,37 +189,35 @@
             dropPhotos();
         }
 
+        function showVideo() {
+            document.getElementById('video-container').style.display = 'block';
+            document.getElementById('myVideo').play();
+        }
+
+        function hideVideo() {
+            document.getElementById('video-container').style.display = 'none';
+            document.getElementById('myVideo').pause();
+        }
+
         function dropPhotos() {
             const images = document.querySelectorAll('.collage-container img');
-            const cols = 5; // We use 5 columns for 16 photos
-            const rows = Math.ceil(images.length / cols);
-            const cellW = window.innerWidth / cols;
-            const cellH = window.innerHeight / rows;
-
+            const cols = 4;
             images.forEach((img, index) => {
                 setTimeout(() => {
                     const col = index % cols;
                     const row = Math.floor(index / cols);
-
-                    // Random placement within grid cell
-                    const x = (col * cellW) + (Math.random() * (cellW - 160));
-                    const y = (row * cellH) + (Math.random() * (cellH - 160));
-                    const rot = Math.random() * 40 - 20;
-
+                    const x = (col * (window.innerWidth / cols)) + (Math.random() * (window.innerWidth/cols - 160));
+                    const y = (row * (window.innerHeight / 4)) + (Math.random() * (window.innerHeight/4 - 160));
                     img.style.opacity = "1";
                     img.style.left = x + "px";
                     img.style.top = y + "px";
-                    img.style.transform = `rotate(${rot}deg)`;
-                }, index * 100);
+                    img.style.transform = `rotate(${Math.random() * 30 - 15}deg)`;
+                }, index * 120);
             });
         }
 
-        function bringToFront(img) {
-            zIndexCounter++;
-            img.style.zIndex = zIndexCounter;
-        }
+        function bringToFront(img) { zIndexCounter++; img.style.zIndex = zIndexCounter; }
 
-        // Background Hearts
         const canvas = document.getElementById('heartCanvas');
         const ctx = canvas.getContext('2d');
         canvas.width = window.innerWidth; canvas.height = window.innerHeight;
@@ -233,8 +234,10 @@
             });
             requestAnimationFrame(draw);
         }
-        for(let i=0; i<30; i++) hearts.push(createHeart());
+        for(let i=0; i<25; i++) hearts.push(createHeart());
         draw();
+
+        window.onresize = () => { canvas.width = window.innerWidth; canvas.height = window.innerHeight; };
     </script>
 </body>
 </html>
